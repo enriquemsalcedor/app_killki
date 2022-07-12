@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/killki_grey"
+    tools:context=".MainActivity">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="@color/killki_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imbtn_home"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="177dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/killki_green"
+        android:onClick="irNoticias"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/imbtn_contacto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:srcCompat="@drawable/ic_home_black_24dp" />
+
+    <TextView
+        android:id="@+id/imbtn_ong"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="261dp"
+        android:background="@color/killki_green"
+        android:onClick="irOng"
+        android:text="ONG"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/imbtn_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imbtn_home"
+        app:layout_constraintTop_toTopOf="@+id/imbtn_home"
+        app:srcCompat="@drawable/ic_notifications_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/imbtn_locacion"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/killki_green"
+        android:onClick="irMapa"
+        app:layout_constraintBottom_toBottomOf="@+id/imbtn_ong"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imbtn_contacto"
+        app:layout_constraintTop_toTopOf="@+id/imbtn_ong"
+        app:srcCompat="@drawable/ic_action_name" />
+
+    <ImageButton
+        android:id="@+id/imbtn_contacto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="1dp"
+        android:background="@color/killki_green"
+        android:onClick="irContacto"
+        app:layout_constraintBottom_toBottomOf="@+id/imbtn_locacion"
+        app:layout_constraintEnd_toStartOf="@+id/imbtn_locacion"
+        app:layout_constraintStart_toEndOf="@+id/imbtn_home"
+        app:layout_constraintTop_toTopOf="@+id/imbtn_locacion"
+        app:srcCompat="@drawable/ic_action_contact" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

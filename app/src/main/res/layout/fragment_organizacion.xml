@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".dialogos.DialogoMensaje">
+
+    <LinearLayout
+        android:id="@+id/barraSuperiorId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/killki_green"
+        android:elevation="6dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:text="REGISTRAR ONG"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeMaxTextSize="17sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/cuerpo"
+        android:layout_width="match_parent"
+        android:layout_height="381dp"
+        android:background="@color/killki_grey"
+        android:elevation="6dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_baseline_camera_alt_24"
+            />
+
+
+        <EditText
+            android:id="@+id/txt_nombre"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="15dp"
+            android:backgroundTint="@color/black"
+            android:ems="10"
+            android:hint="Nombre"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textColorHint="@color/killki_hint" />
+
+        <EditText
+            android:id="@+id/txt_email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="15dp"
+            android:backgroundTint="@color/black"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textColorHint="@color/killki_hint" />
+
+        <EditText
+            android:id="@+id/txt_direccion"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="15dp"
+            android:backgroundTint="@color/black"
+            android:ems="10"
+            android:hint="Dirección"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textColorHint="@color/killki_hint" />
+
+        <EditText
+            android:id="@+id/txt_telefonos"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="15dp"
+            android:backgroundTint="@color/black"
+            android:ems="10"
+            android:hint="Teléfonos"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textColorHint="@color/killki_hint" />
+
+        <Button
+            android:id="@+id/btn_guardar"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/boton"
+            android:text="guardar" />
+    </LinearLayout>
+
+</LinearLayout>

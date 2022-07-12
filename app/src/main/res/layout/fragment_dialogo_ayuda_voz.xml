@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".dialogos.DialogoMensaje">
+
+    <LinearLayout
+        android:id="@+id/barraSuperiorId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/killki_green"
+        android:elevation="6dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="297dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:text="AYUDA"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cuerpo"
+        android:layout_width="match_parent"
+        android:layout_height="187dp"
+        android:background="@color/killki_grey"
+        android:elevation="6dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_marginTop="30dp"
+            android:elevation="6dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/boton"
+                android:src="@drawable/ic_action_mic" />
+
+            <TextView
+                android:layout_width="260dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="1dp"
+                android:autoSizeMaxTextSize="17sp"
+                android:autoSizeMinTextSize="15sp"
+                android:gravity="center_vertical"
+                android:text="Selecciona este botón para grabar"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_marginTop="10dp"
+            android:elevation="6dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/boton"
+                android:src="@drawable/ic_action_mic_off" />
+
+            <TextView
+                android:id="@+id/item"
+                android:layout_width="263dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="1dp"
+                android:gravity="center_vertical"
+                android:text="Selecciona este botón para detener\n la grabación"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:autoSizeMinTextSize="15sp"
+                android:autoSizeMaxTextSize="17sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_marginTop="10dp"
+            android:elevation="6dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/boton"
+                android:src="@drawable/ic_action_play" />
+
+            <TextView
+                android:layout_width="260dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="1dp"
+                android:gravity="center_vertical"
+                android:text="Selecciona este botón para reproducir\n la grabación"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:autoSizeMinTextSize="15sp"
+                android:autoSizeMaxTextSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

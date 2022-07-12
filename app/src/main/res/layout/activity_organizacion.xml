@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/killki_grey"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_sos"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/redondeado"
+        android:text="@string/btn_sos"
+        android:textColor="@color/black"
+        android:textSize="40sp"
+        android:autoSizeMinTextSize="35sp"
+        android:autoSizeMaxTextSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="410dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="25dp"
+        android:background="@color/killki_green"
+        android:backgroundTint="@color/killki_green"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        tools:layout_editor_absoluteX="2dp" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="@color/killki_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imbtn_home"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="177dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/killki_green"
+        android:onClick="irNoticias"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/imbtn_contacto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:srcCompat="@drawable/ic_action_book" />
+
+    <TextView
+        android:id="@+id/imbtn_ong"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="110dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/killki_green"
+        android:gravity="center"
+        android:onClick="irOng"
+        android:text="ONG"
+        android:textColor="#0C0C0C"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/imbtn_contacto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view" />
+
+
+    <ImageButton
+        android:id="@+id/btn_inicio"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/killki_green"
+        android:textSize="40sp"
+        android:onClick="irInicio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_home_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/imbtn_locacion"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/killki_green"
+        android:onClick="irMapa"
+        app:layout_constraintBottom_toBottomOf="@+id/imbtn_ong"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imbtn_contacto"
+        app:layout_constraintTop_toTopOf="@+id/imbtn_ong"
+        app:srcCompat="@drawable/ic_action_name" />
+
+    <ImageButton
+        android:id="@+id/imbtn_contacto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="1dp"
+        android:background="@color/killki_green"
+        android:onClick="irContacto"
+        app:layout_constraintBottom_toBottomOf="@+id/imbtn_locacion"
+        app:layout_constraintEnd_toStartOf="@+id/imbtn_locacion"
+        app:layout_constraintStart_toEndOf="@+id/imbtn_home"
+        app:layout_constraintTop_toTopOf="@+id/imbtn_locacion"
+        app:srcCompat="@drawable/ic_action_contact" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="413dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/killki_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtv_direccion" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="196dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/ovalado"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@+id/txtv_ubicacion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="329dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="ONG'S Y CENTROS DE AYUDA"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:autoSizeMinTextSize="15sp"
+        android:autoSizeMaxTextSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view3" />
+
+    <TextView
+        android:id="@+id/txtv_ubicacion"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="95dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="95dp"
+        android:drawableRight="@drawable/ic_action_name"
+        android:gravity="center"
+        android:text="UBICACIÓN"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:autoSizeMinTextSize="15sp"
+        android:autoSizeMaxTextSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/txtv_direccion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="20dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:autoSizeMinTextSize="15sp"
+        android:autoSizeMaxTextSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtv_ubicacion" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="361dp"
+        android:background="@color/killki_green"
+        android:onClick="irConfiguracion"
+        app:layout_constraintEnd_toEndOf="@+id/view4"
+        app:srcCompat="@drawable/ic_action_config"
+        tools:layout_editor_absoluteY="2dp" />
+
+    <ImageButton
+        android:id="@+id/btn_salir"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="50dp"
+        android:background="@color/killki_green"
+        android:onClick="salir"
+        app:layout_constraintEnd_toEndOf="@+id/view4"
+        app:srcCompat="@drawable/ic_action_close"
+        tools:layout_editor_absoluteY="2dp" />
+
+    <ImageButton
+        android:id="@+id/btn_add"
+        android:layout_width="35dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="318dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/killki_green"
+        android:onClick="irContactos"
+        app:layout_constraintBottom_toBottomOf="@+id/view3"
+        app:layout_constraintEnd_toEndOf="@+id/view3"
+        app:layout_constraintStart_toStartOf="@+id/view3"
+        app:layout_constraintTop_toBottomOf="@+id/txtv_direccion"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_action_add" />
+
+    <ListView
+        android:id="@+id/lv_orgazacion"
+        android:layout_width="376dp"
+        android:layout_height="280dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view3" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

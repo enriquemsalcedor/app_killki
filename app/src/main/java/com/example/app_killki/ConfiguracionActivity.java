@@ -23,6 +23,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.SmsManager;
@@ -34,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +55,7 @@ import modelos.Inicio;
 
 public class ConfiguracionActivity extends AppCompatActivity {
 
-    public Button btn_sos;
+    public ImageView btn_sos;
     ImageButton imbtn_ong;
     TextView txtv_direccion;
 
@@ -64,7 +66,9 @@ public class ConfiguracionActivity extends AppCompatActivity {
     Sensor sensor;
     SensorEventListener sensorEventListener;
     int movimiento = 0;
+    int intervalo;
     int numero = 0;
+    String sms = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +77,9 @@ public class ConfiguracionActivity extends AppCompatActivity {
 
         acciones=new ArrayList<Accion>();
         acciones.add(new Accion("MENSAJE PARA ENVIAR"));
-        acciones.add(new Accion("INTERVALO DE MENSAJE"));
+        //acciones.add(new Accion("INTERVALO DE MENSAJE"));
         acciones.add(new Accion("SENSOR DE MOVIMIENTO"));
-        acciones.add(new Accion("CONFIGURACIÓN DE VOZ"));
+        //acciones.add(new Accion("CONFIGURACIÓN DE VOZ"));
 
         AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(getApplicationContext(), "killki", null, 1);
         SQLiteDatabase bd = con.getWritableDatabase();
@@ -84,6 +88,11 @@ public class ConfiguracionActivity extends AppCompatActivity {
         if (consulta.moveToFirst()) {
             numero = consulta.getInt(0);
 
+        }
+
+        Cursor mensaje = bd.rawQuery("select mensaje from configuracion", null);
+        if (mensaje.moveToFirst()) {
+            sms = mensaje.getString(0);
         }
 
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -104,7 +113,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
 
                     if(movimiento == numero){
                         movimiento = 0;
-                        enviarSMS();
+                        enviarAlerta(sms);
                     }
                 }
 
@@ -115,7 +124,8 @@ public class ConfiguracionActivity extends AppCompatActivity {
 
             }
         };
-        start();
+        //se comento para quitar el envio de alerta de movimiento
+        //start();
 
         ConfiguracionActivity.AdaptadorConf adaptador = new ConfiguracionActivity.AdaptadorConf(this);
         ListView lv1 = findViewById(R.id.lv_conf);
@@ -150,8 +160,23 @@ public class ConfiguracionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Toast.makeText(getApplicationContext(), "BOTON SOS", Toast.LENGTH_LONG).show();
-                enviarSMS();
+                enviarAlerta(sms);
+                Cursor consultaIntervalo = bd.rawQuery("select intervalo from configuracion", null);
+
+                if (consultaIntervalo.moveToFirst()) {
+                    intervalo = consultaIntervalo.getInt(0);
+                }
+                if (intervalo > 0){
+                    intervalo = intervalo * 1000;
+                    for (int i = 1; i<= 3; i++){
+                        try{
+                            Thread.sleep(intervalo);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        enviarAlerta(sms);
+                    }
+                }
             }
         });
     }
@@ -332,16 +357,20 @@ public class ConfiguracionActivity extends AppCompatActivity {
                         dialogoMensaje.show(getSupportFragmentManager(), "DialogoMensaje");
 
                     }
+                    /*
                     if (position == 1) {
                         DialogoIntervalo dialogoIntervalo = new DialogoIntervalo();
                         dialogoIntervalo.show(getSupportFragmentManager(), "DialogoIntervalo");
 
                     }
-                    if (position == 2) {
+                    */
+                    //if (position == 2) {
+                    if (position == 1) {
                         DialogoSensor dialogoSensor = new DialogoSensor();
                         dialogoSensor.show(getSupportFragmentManager(), "DialogoSensor");
 
                     }
+                    /*
                     if (position == 3) {
                         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                                 && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
@@ -356,7 +385,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
                             dialogoVoz.show(getSupportFragmentManager(), "DialogoVoz");
 
                         }
-                    }
+                    }*/
                 }
             });
 
@@ -372,16 +401,35 @@ public class ConfiguracionActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Mensaje Enviado.", Toast.LENGTH_LONG).show();
         }
         catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Mensaje no enviado, datos incorrectos.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Mensaje no enviado, ha ocurrido un error.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
 
     }
 
-    public void enviarSMS(){
+    void reenviar(){
         AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(this, "killki", null, 1);
         SQLiteDatabase bd = con.getWritableDatabase();
-        String sms = "";
+        Cursor intervalo = bd.rawQuery("select intervalo from configuracion", null);
+        int interv = 0;
+        if (intervalo.moveToFirst()) {
+            interv = intervalo.getInt(0);
+        }
+
+        if (interv > 0){
+            Cursor list = bd.rawQuery("select nombre, numero from contactos", null);
+            while (list.moveToNext()) {
+                mensajeSMS(list.getString(1), sms);
+                mensajeWhatsapp(list.getString(1), sms);
+
+            }
+        }
+
+    }
+
+    public void enviarAlerta(String mensaje){
+        AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(this, "killki", null, 1);
+        SQLiteDatabase bd = con.getWritableDatabase();
 
         Cursor count = bd.rawQuery("select count (*) as count from contactos", null);
         count.moveToFirst();
@@ -391,14 +439,11 @@ public class ConfiguracionActivity extends AppCompatActivity {
         if (contador >= 1) {
 
             Cursor list = bd.rawQuery("select nombre, numero from contactos", null);
-            Cursor consulta = bd.rawQuery("select mensaje from configuracion", null);
-
-            if (consulta.moveToFirst()) {
-                sms = consulta.getString(0);
-            }
+            Cursor intervalo = bd.rawQuery("select intervalo from configuracion", null);
 
             while (list.moveToNext()) {
-                mensajeSMS(list.getString(1), sms);
+                mensajeSMS(list.getString(1), mensaje);
+                mensajeWhatsapp(list.getString(1), mensaje);
 
             }
         }else{
@@ -417,5 +462,25 @@ public class ConfiguracionActivity extends AppCompatActivity {
                     });
             builder.show();
         }
+    }
+
+    private void mensajeWhatsapp(String numero, String message)
+    {
+        // Creating new intent
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        //intent.setPackage("com.whatsapp");
+        System.out.println("---->" + numero);
+        String uri = "whatsapp://send?phone=" + numero.toString() + "&text=" + message.toString();
+        intent.setData(Uri.parse(uri));
+
+        // Checking whether Whatsapp
+        // is installed or not
+        if (intent.resolveActivity(getPackageManager()) == null) {
+            Toast.makeText(this, "Whatsapp no esta instalado en el dispositivo.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Starting Whatsapp
+        startActivity(intent);
     }
 }

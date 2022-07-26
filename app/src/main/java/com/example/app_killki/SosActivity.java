@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -37,6 +38,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,7 +57,7 @@ import modelos.Inicio;
 
 public class SosActivity extends AppCompatActivity {
 
-    public Button btn_sos;
+    public ImageView btn_sos;
     private ArrayList<Inicio> lista;
     LocationManager locationManager ;
     boolean GpsStatus;
@@ -67,6 +69,7 @@ public class SosActivity extends AppCompatActivity {
     SensorEventListener sensorEventListener;
     int movimiento = 0;
     int numero = 0;
+    int intervalo;
     String sms = "";
 
     @Override
@@ -77,9 +80,9 @@ public class SosActivity extends AppCompatActivity {
         lista=new ArrayList<Inicio>();
         lista.add(new Inicio("Empieza creando tus <font color='#EE0000'>ALERTAS</font> con mensajes de texto <font color='#EE0000'>AQUI</font>."));
         lista.add(new Inicio("Puedes enviar tus alertas de emergencia hasta a 3 contactos. Selecciona tus Contactos <font color='#EE0000'>AQUI</font>."));
-        lista.add(new Inicio("Para activar tus alertas y éstas se envíen selecciona <font color='#EE0000'>ACTIVAR ALERTA CON MI VOZ</font>."));
+        //lista.add(new Inicio("Para activar tus alertas y éstas se envíen selecciona <font color='#EE0000'>ACTIVAR ALERTA CON MI VOZ</font>."));
         lista.add(new Inicio("También puedes escoger <font color='#EE0000'>ACTIVAR ALERTA MOVIENDO MI CELULAR</font>."));
-        lista.add(new Inicio("Por último, puedes ingresar a KILLKI y darle click al botón <font color='#EE0000'>SOS</font> de color verde y se enviarán tus alertas a los contactos seleccionados. "));
+        lista.add(new Inicio("Por último, puedes ingresar a KILLKI y darle click al botón <font color='#EE0000'>SOS</font> de color rojo y se enviarán tus alertas a los contactos seleccionados. "));
 
         AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(getApplicationContext(), "killki", null, 1);
         SQLiteDatabase bd = con.getWritableDatabase();
@@ -95,6 +98,8 @@ public class SosActivity extends AppCompatActivity {
             sms = mensaje.getString(0);
         }
 
+
+
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
@@ -104,18 +109,45 @@ public class SosActivity extends AppCompatActivity {
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
-                if (numero > 0){
-                    float x = sensorEvent.values[0];
-                    if(x<-5){
-                        movimiento++;
-                        //Toast.makeText(getApplicationContext(), "uno..." + movimiento, Toast.LENGTH_LONG).show();
-                    }
 
-                    if(movimiento == numero){
-                        movimiento = 0;
-                        enviarAlerta(sms);
+
+/*
+                if (alerta.equals("enviado")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    builder.setMessage("¿Desea activar el envío de alerta con movimiento?")
+                            .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    SharedPreferences preferencias=getSharedPreferences("agenda", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor movalerta=preferencias.edit();
+                                    movalerta.putString("alerta_movimiento", "");
+                                    movalerta.commit();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.show();
+                }else{*/
+                    if (numero > 0) {
+                        float x = sensorEvent.values[0];
+                        if (x < -5) {
+                            movimiento++;
+                            //Toast.makeText(getApplicationContext(), "uno..." + movimiento, Toast.LENGTH_LONG).show();
+                        }
+
+                        if (movimiento == numero) {
+                            movimiento = 0;
+                            SharedPreferences preferencias=getSharedPreferences("agenda", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor movalerta=preferencias.edit();
+                            movalerta.putString("alerta_movimiento", "enviado");
+                            movalerta.commit();
+                            enviarAlerta(sms);
+
+                        }
                     }
-                }
+                //}
             }
 
             @Override
@@ -123,6 +155,7 @@ public class SosActivity extends AppCompatActivity {
 
             }
         };
+        //se comento para quitar el envio de alerta de movimiento
         start();
 
         AdaptadorInicio adaptador = new AdaptadorInicio(this);
@@ -157,6 +190,22 @@ public class SosActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 enviarAlerta(sms);
+                Cursor consultaIntervalo = bd.rawQuery("select intervalo from configuracion", null);
+
+                if (consultaIntervalo.moveToFirst()) {
+                    intervalo = consultaIntervalo.getInt(0);
+                }
+                if (intervalo > 0){
+                    intervalo = intervalo * 1000;
+                    for (int i = 1; i<= 3; i++){
+                        try{
+                            Thread.sleep(intervalo);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        enviarAlerta(sms);
+                    }
+                }
             }
         });
 
@@ -177,10 +226,9 @@ public class SosActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Mensaje Enviado.", Toast.LENGTH_LONG).show();
         }
         catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Mensaje no enviado, datos incorrectos.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Mensaje no enviado, ha ocurrido un error.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-
     }
 
     void reenviar(){
@@ -221,8 +269,6 @@ public class SosActivity extends AppCompatActivity {
                 mensajeSMS(list.getString(1), mensaje);
                 mensajeWhatsapp(list.getString(1), mensaje);
 
-                System.out.println("------>>"+mensaje);
-                System.out.println("------>>"+sms);
             }
         }else{
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -249,7 +295,7 @@ public class SosActivity extends AppCompatActivity {
         intent.setAction(Intent.ACTION_VIEW);
         //intent.setPackage("com.whatsapp");
         System.out.println("---->" + numero);
-        String uri = "whatsapp://send?phone=" + numero.toString() + "&text=" + message.toString();
+        String uri = "whatsapp://send?phone=+" + numero.toString() + "&text=" + message.toString();
         intent.setData(Uri.parse(uri));
 
         // Checking whether Whatsapp
@@ -347,10 +393,62 @@ public class SosActivity extends AppCompatActivity {
             TextView textView1 = item.findViewById(R.id.item);
             //textView1.setText(lista.get(position).getItem());
             textView1.setText(Html.fromHtml(lista.get(position).getItem()));
+            ImageButton icon= item.findViewById(R.id.imgbtn);
 
-            ImageButton callbtn= (ImageButton) item.findViewById(R.id.imgbtn_delete);
+            if (position == 0){
+                icon.setImageResource(R.drawable.mensaje_removebg);
+            }
+            else if (position == 1){
+                icon.setImageResource(R.drawable.contacto_removebg);
+            }
+            else if (position == 2){
+                icon.setImageResource(R.drawable.voz_removebg);
+            }
+            else{
+                icon.setImageResource(R.drawable.ic_action_check);
+            }
 
             textView1.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    //do something
+                    //Toast.makeText(getApplicationContext(), "Enlace seleccionado numero: "+ (position + 1), Toast.LENGTH_LONG).show();
+
+                    if (position == 0) {
+                        DialogoMensaje dialogoMensaje = new DialogoMensaje();
+                        dialogoMensaje.show(getSupportFragmentManager(), "DialogoMensaje");
+
+                    }
+                    if (position == 1) {
+                        Intent i = new Intent(SosActivity.this, ContactoActivity.class );
+                        startActivity(i);
+
+                    }
+                    /*
+                    if (position == 2) {
+                        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                                && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            ActivityCompat.requestPermissions(SosActivity.this, new String[]{
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.RECORD_AUDIO}, 1000);
+                            return;
+                        }else {
+                            DialogoVoz dialogoVoz = new DialogoVoz();
+                            dialogoVoz.show(getSupportFragmentManager(), "DialogoVoz");
+                        }
+                    }
+                    */
+                    if (position == 2) {
+                        DialogoSensor dialogoSensor = new DialogoSensor();
+                        dialogoSensor.show(getSupportFragmentManager(), "DialogoSensor");
+
+                    }
+                }
+            });
+
+
+            icon.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     //do something
@@ -379,11 +477,13 @@ public class SosActivity extends AppCompatActivity {
                             dialogoVoz.show(getSupportFragmentManager(), "DialogoVoz");
                         }
                     }
+                    /*
                     if (position == 3) {
                         DialogoSensor dialogoSensor = new DialogoSensor();
                         dialogoSensor.show(getSupportFragmentManager(), "DialogoSensor");
 
                     }
+                     */
 
                 }
             });

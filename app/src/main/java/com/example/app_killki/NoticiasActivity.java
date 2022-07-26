@@ -27,19 +27,22 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class NoticiasActivity extends AppCompatActivity {
 
     String url = "https://www.killki.com.pe/index.php/noticias";
-    public Button btn_sos;
+    public ImageView btn_sos;
 
     SensorManager sensorManager;
     Sensor sensor;
     SensorEventListener sensorEventListener;
     int movimiento = 0;
     int numero = 0;
+    int intervalo;
+    String sms = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,11 @@ public class NoticiasActivity extends AppCompatActivity {
         if (consulta.moveToFirst()) {
             numero = consulta.getInt(0);
 
+        }
+
+        Cursor mensaje = bd.rawQuery("select mensaje from configuracion", null);
+        if (mensaje.moveToFirst()) {
+            sms = mensaje.getString(0);
         }
 
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -76,7 +84,7 @@ public class NoticiasActivity extends AppCompatActivity {
 
                     if(movimiento == numero){
                         movimiento = 0;
-                        enviarSMS();
+                        enviarAlerta(sms);
                     }
                 }
 
@@ -87,7 +95,8 @@ public class NoticiasActivity extends AppCompatActivity {
 
             }
         };
-        start();
+        //se comento para quitar el envio de alerta de movimiento
+        //start();
 
         if (networkInfo != null && networkInfo.isConnected()) {
             // Si hay conexión a Internet en este momento
@@ -110,8 +119,23 @@ public class NoticiasActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getApplicationContext(), "BOTON SOS", Toast.LENGTH_LONG).show();
-                enviarSMS();
+                enviarAlerta(sms);
+                Cursor consultaIntervalo = bd.rawQuery("select intervalo from configuracion", null);
+
+                if (consultaIntervalo.moveToFirst()) {
+                    intervalo = consultaIntervalo.getInt(0);
+                }
+                if (intervalo > 0){
+                    intervalo = intervalo * 1000;
+                    for (int i = 1; i<= 3; i++){
+                        try{
+                            Thread.sleep(intervalo);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        enviarAlerta(sms);
+                    }
+                }
             }
         });
 
@@ -214,16 +238,35 @@ public class NoticiasActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Mensaje Enviado.", Toast.LENGTH_LONG).show();
         }
         catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Mensaje no enviado, datos incorrectos.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Mensaje no enviado, ha ocurrido un error.", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
 
     }
 
-    public void enviarSMS(){
+    void reenviar(){
         AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(this, "killki", null, 1);
         SQLiteDatabase bd = con.getWritableDatabase();
-        String sms = "";
+        Cursor intervalo = bd.rawQuery("select intervalo from configuracion", null);
+        int interv = 0;
+        if (intervalo.moveToFirst()) {
+            interv = intervalo.getInt(0);
+        }
+
+        if (interv > 0){
+            Cursor list = bd.rawQuery("select nombre, numero from contactos", null);
+            while (list.moveToNext()) {
+                mensajeSMS(list.getString(1), sms);
+                mensajeWhatsapp(list.getString(1), sms);
+
+            }
+        }
+
+    }
+
+    public void enviarAlerta(String mensaje){
+        AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(this, "killki", null, 1);
+        SQLiteDatabase bd = con.getWritableDatabase();
 
         Cursor count = bd.rawQuery("select count (*) as count from contactos", null);
         count.moveToFirst();
@@ -233,14 +276,11 @@ public class NoticiasActivity extends AppCompatActivity {
         if (contador >= 1) {
 
             Cursor list = bd.rawQuery("select nombre, numero from contactos", null);
-            Cursor consulta = bd.rawQuery("select mensaje from configuracion", null);
-
-            if (consulta.moveToFirst()) {
-                sms = consulta.getString(0);
-            }
+            Cursor intervalo = bd.rawQuery("select intervalo from configuracion", null);
 
             while (list.moveToNext()) {
-                mensajeSMS(list.getString(1), sms);
+                mensajeSMS(list.getString(1), mensaje);
+                mensajeWhatsapp(list.getString(1), mensaje);
 
             }
         }else{
@@ -259,5 +299,25 @@ public class NoticiasActivity extends AppCompatActivity {
                     });
             builder.show();
         }
+    }
+
+    private void mensajeWhatsapp(String numero, String message)
+    {
+        // Creating new intent
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        //intent.setPackage("com.whatsapp");
+        System.out.println("---->" + numero);
+        String uri = "whatsapp://send?phone=" + numero.toString() + "&text=" + message.toString();
+        intent.setData(Uri.parse(uri));
+
+        // Checking whether Whatsapp
+        // is installed or not
+        if (intent.resolveActivity(getPackageManager()) == null) {
+            Toast.makeText(this, "Whatsapp no esta instalado en el dispositivo.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Starting Whatsapp
+        startActivity(intent);
     }
 }

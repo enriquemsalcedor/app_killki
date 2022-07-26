@@ -23,6 +23,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.SmsManager;
@@ -50,7 +51,7 @@ import modelos.Organizacion;
 
 public class OrganizacionActivity extends AppCompatActivity {
 
-    public Button btn_sos;
+    public ImageView btn_sos;
     TextView txtv_direccion;
     ImageView btn_add;
     Intent intent;
@@ -60,7 +61,9 @@ public class OrganizacionActivity extends AppCompatActivity {
     Sensor sensor;
     SensorEventListener sensorEventListener;
     int movimiento = 0;
+    int intervalo;
     int numero = 0;
+    String sms = "";
 
     private ArrayList<Organizacion> listOrganizacion;
     @Override
@@ -95,7 +98,7 @@ public class OrganizacionActivity extends AppCompatActivity {
 
                     if(movimiento == numero){
                         movimiento = 0;
-                        enviarSMS();
+                        enviarAlerta(sms);
                     }
                 }
 
@@ -106,7 +109,8 @@ public class OrganizacionActivity extends AppCompatActivity {
 
             }
         };
-        start();
+        //se comento para quitar el envio de alerta de movimiento
+        //start();
 
         txtv_direccion =  (TextView) findViewById(R.id.txtv_direccion);
         btn_add = (ImageView) findViewById(R.id.btn_add);
@@ -145,8 +149,23 @@ public class OrganizacionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getApplicationContext(), "BOTON SOS", Toast.LENGTH_LONG).show();
-                enviarSMS();
+                enviarAlerta(sms);
+                Cursor consultaIntervalo = bd.rawQuery("select intervalo from configuracion", null);
+
+                if (consultaIntervalo.moveToFirst()) {
+                    intervalo = consultaIntervalo.getInt(0);
+                }
+                if (intervalo > 0){
+                    intervalo = intervalo * 1000;
+                    for (int i = 1; i<= 3; i++){
+                        try{
+                            Thread.sleep(intervalo);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        enviarAlerta(sms);
+                    }
+                }
             }
         });
     }
@@ -298,15 +317,7 @@ public class OrganizacionActivity extends AppCompatActivity {
         }
 
     }
-    /*
-    public void obtenerLista() {
-        listInformacion = new ArrayList<String>();
-        for(int i = 0; i<listContactos.size(); i++){
-            listInformacion.add(listContactos.get(i).getNombre() + " - " + listContactos.get(i).getNumero());
-        }
-    }
 
-     */
 
 
     class AdaptadorOrganizacion extends ArrayAdapter<Organizacion> {
@@ -385,10 +396,29 @@ public class OrganizacionActivity extends AppCompatActivity {
 
     }
 
-    public void enviarSMS(){
+    void reenviar(){
         AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(this, "killki", null, 1);
         SQLiteDatabase bd = con.getWritableDatabase();
-        String sms = "";
+        Cursor intervalo = bd.rawQuery("select intervalo from configuracion", null);
+        int interv = 0;
+        if (intervalo.moveToFirst()) {
+            interv = intervalo.getInt(0);
+        }
+
+        if (interv > 0){
+            Cursor list = bd.rawQuery("select nombre, numero from contactos", null);
+            while (list.moveToNext()) {
+                mensajeSMS(list.getString(1), sms);
+                mensajeWhatsapp(list.getString(1), sms);
+
+            }
+        }
+
+    }
+
+    public void enviarAlerta(String mensaje){
+        AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(this, "killki", null, 1);
+        SQLiteDatabase bd = con.getWritableDatabase();
 
         Cursor count = bd.rawQuery("select count (*) as count from contactos", null);
         count.moveToFirst();
@@ -398,14 +428,11 @@ public class OrganizacionActivity extends AppCompatActivity {
         if (contador >= 1) {
 
             Cursor list = bd.rawQuery("select nombre, numero from contactos", null);
-            Cursor consulta = bd.rawQuery("select mensaje from configuracion", null);
-
-            if (consulta.moveToFirst()) {
-                sms = consulta.getString(0);
-            }
+            Cursor intervalo = bd.rawQuery("select intervalo from configuracion", null);
 
             while (list.moveToNext()) {
-                mensajeSMS(list.getString(1), sms);
+                mensajeSMS(list.getString(1), mensaje);
+                mensajeWhatsapp(list.getString(1), mensaje);
 
             }
         }else{
@@ -424,5 +451,25 @@ public class OrganizacionActivity extends AppCompatActivity {
                     });
             builder.show();
         }
+    }
+
+    private void mensajeWhatsapp(String numero, String message)
+    {
+        // Creating new intent
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        //intent.setPackage("com.whatsapp");
+        System.out.println("---->" + numero);
+        String uri = "whatsapp://send?phone=" + numero.toString() + "&text=" + message.toString();
+        intent.setData(Uri.parse(uri));
+
+        // Checking whether Whatsapp
+        // is installed or not
+        if (intent.resolveActivity(getPackageManager()) == null) {
+            Toast.makeText(this, "Whatsapp no esta instalado en el dispositivo.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Starting Whatsapp
+        startActivity(intent);
     }
 }

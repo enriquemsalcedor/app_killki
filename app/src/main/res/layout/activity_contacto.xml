@@ -7,22 +7,6 @@
     android:background="@color/killki_grey"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btn_sos"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/redondeado"
-        android:text="@string/btn_sos"
-        android:textColor="@color/black"
-        android:textSize="40sp"
-        android:autoSizeMinTextSize="35sp"
-        android:autoSizeMaxTextSize="35sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
 
     <View
         android:id="@+id/view4"
@@ -263,5 +247,17 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view3" />
+
+    <ImageView
+        android:id="@+id/btn_sos"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginBottom="55dp"
+        android:src="@drawable/sos_fondo_transparente_final"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

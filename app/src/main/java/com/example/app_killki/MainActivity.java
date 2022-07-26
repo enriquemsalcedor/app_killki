@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -41,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(this, "killki", null, 1);
+
+        SharedPreferences preferencias=getSharedPreferences("sensor",Context.MODE_PRIVATE);
+        SharedPreferences.Editor movalerta = preferencias.edit();
+        movalerta.putString("alerta", "");
+        movalerta.commit();
+
 
         try {
             Thread.sleep(2000);

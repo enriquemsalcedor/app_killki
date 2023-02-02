@@ -47,37 +47,48 @@
             android:elevation="6dp"
             android:orientation="horizontal">
 
-            <ImageButton
+            <TextView
                 android:id="@+id/ibtn_grabar"
-                android:layout_width="5dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/boton"
-                android:src="@drawable/ic_action_mic" />
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/ic_action_mic"
+                android:gravity="center_vertical"
+                android:text="GRABAR"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
-            <ImageButton
-                android:id="@+id/ibtn_reproducir"
-                android:layout_width="5dp"
+
+            <TextView
+                android:id="@+id/ibtn_detener"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="70dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/boton"
-                android:src="@drawable/ic_action_play" />
+                android:drawableLeft="@drawable/ic_action_stop"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:text="DETENER"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_guardar"
+            android:id="@+id/btn_reproducir"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="50dp"
             android:background="@drawable/boton"
-            android:text="guardar" />
+            android:text="reproducir grabación" />
 
         <ImageButton
             android:id="@+id/ibtn_ayuda"

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".dialogos.DialogoMensaje">
+
+    <LinearLayout
+        android:id="@+id/barraSuperiorId"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/killki_green"
+        android:elevation="6dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="BIENVENIDO"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:autoSizeMinTextSize="15sp"
+            android:autoSizeMaxTextSize="17sp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cuerpo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/killki_grey"
+        android:elevation="6dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:autoSizeMaxTextSize="17sp"
+            android:autoSizeMinTextSize="15sp"
+            android:text="SELECCIONE"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:autoSizeMaxTextSize="17sp"
+            android:autoSizeMinTextSize="15sp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rb_no_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NO SELECCIONADO"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/rb_treinta_seg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30 SEGUNDOS"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/rb_un_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 MINUTOS"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/rb_dos_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2 MINUTOS"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/rb_cinco_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 MINUTOS"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/rb_diez_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 MINUTOS"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_guardar"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/boton"
+            android:text="guardar" />
+    </LinearLayout>
+
+</LinearLayout>

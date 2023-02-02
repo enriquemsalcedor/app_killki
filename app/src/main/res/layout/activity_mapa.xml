@@ -215,16 +215,139 @@
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <ImageView
+        android:id="@+id/btn_whatsapp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="95dp"
+        android:background="@drawable/redondeado"
+        android:src="@drawable/whatsapp_r"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtvoz"
+        android:layout_width="176dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="20dp"
+        android:autoSizeMaxTextSize="14sp"
+        android:autoSizeMinTextSize="12sp"
+        android:background="@color/killki_green"
+        android:text="Dictar Alerta de Voz"
+        android:textAlignment="viewEnd"
+        android:paddingEnd="5dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_voz_alerta" />
+
+
+    <ImageView
+        android:id="@+id/btn_voz_alerta"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="95dp"
+        android:background="@drawable/redondeado"
+        android:src="@drawable/boton_alerta_voz"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtwhatsapp"
+        android:layout_width="176dp"
+        android:layout_height="23dp"
+        android:autoSizeMaxTextSize="14sp"
+        android:autoSizeMinTextSize="12sp"
+        android:background="@color/killki_green"
+        android:paddingStart="5dp"
+        android:text="Enviar Alerta de Whatsapp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.251"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_whatsapp" />
+
+    <TextView
+        android:id="@+id/txtwhatsapp2"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        android:autoSizeMaxTextSize="14sp"
+        android:autoSizeMinTextSize="12sp"
+        android:background="@color/killki_green"
+        android:paddingStart="5dp"
+        android:text="Alerta de Whatsapp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_whatsapp" />
+
+    <ImageView
         android:id="@+id/btn_sos"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="65dp"
         android:src="@drawable/sos_fondo_transparente_final"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         />
+
+    <TextView
+        android:id="@+id/txtsos"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="177dp"
+        android:layout_marginTop="97dp"
+        android:layout_marginEnd="176dp"
+        android:autoSizeMaxTextSize="14sp"
+        android:autoSizeMinTextSize="12sp"
+        android:background="@color/killki_green"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="Envie la alerta moviendo 3 veces seguidas su celular hacia los lados"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_sos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <!--TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-5dp"
+        android:autoSizeMaxTextSize="14sp"
+        android:autoSizeMinTextSize="12sp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:text="Envie la alerta moviendo 3 veces seguidas su cedular hacia los lados"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/btn_sos"
+        tools:layout_editor_absoluteX="0dp" /-->
+    />
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

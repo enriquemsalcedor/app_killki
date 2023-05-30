@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         }
         setTheme(R.style.SplashTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
 
         Intent i = new Intent(this, SosActivity.class );
         startActivity(i);

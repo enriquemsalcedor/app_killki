@@ -56,7 +56,7 @@ public class NoticiasActivity extends AppCompatActivity {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
         AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(getApplicationContext(), "killki", null, 1);
-        SQLiteDatabase bd = con.getWritableDatabase();
+        final SQLiteDatabase bd = con.getWritableDatabase();
         Cursor consulta = bd.rawQuery(
                 "select num_veces from configuracion", null);
         if (consulta.moveToFirst()) {

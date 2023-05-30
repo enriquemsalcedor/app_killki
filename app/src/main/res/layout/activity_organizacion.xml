@@ -194,7 +194,7 @@
         android:id="@+id/btn_salir"
         android:layout_width="37dp"
         android:layout_height="37dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="20dp"
         android:background="@color/killki_green"
         android:onClick="salir"
         app:layout_constraintEnd_toEndOf="@+id/view4"

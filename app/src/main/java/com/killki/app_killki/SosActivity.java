@@ -47,6 +47,7 @@ import android.widget.Toast;
 import com.killki.app_killki.dialogos.DialogoAyudaVoz;
 import com.killki.app_killki.dialogos.DialogoInstrucciones;
 import com.killki.app_killki.dialogos.DialogoMensaje;
+import com.killki.app_killki.dialogos.DialogoPoliticas;
 import com.killki.app_killki.dialogos.DialogoVoz;
 
 import java.io.IOException;
@@ -99,9 +100,10 @@ public class SosActivity extends AppCompatActivity {
         //lista.add(new Inicio("Para activar tus alertas y éstas se envíen selecciona <font color='#EE0000'>ACTIVAR ALERTA CON MI VOZ</font>."));
         //lista.add(new Inicio("También puedes escoger <font color='#EE0000'>ACTIVAR ALERTA MOVIENDO MI CELULAR</font>."));
         lista.add(new Inicio("Por último, puedes ingresar a KILLKI y darle click al botón <font color='#EE0000'>SOS</font> de color rojo y se enviarán tus alertas a los contactos seleccionados. "));
+        lista.add(new Inicio("Aquí puedes ver las <font color='#EE0000'>Políticas de Privacidad de la App.</font>"));
 
         AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(getApplicationContext(), "killki", null, 1);
-        SQLiteDatabase bd = con.getWritableDatabase();
+        final SQLiteDatabase bd = con.getWritableDatabase();
         Cursor consulta = bd.rawQuery(
                 "select num_veces from configuracion", null);
         if (consulta.moveToFirst()) {
@@ -528,7 +530,7 @@ public class SosActivity extends AppCompatActivity {
             appCompatActivity = context;
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = appCompatActivity.getLayoutInflater();
             View item = inflater.inflate(R.layout.layout_inicio, null);
 
@@ -543,11 +545,11 @@ public class SosActivity extends AppCompatActivity {
             else if (position == 1){
                 icon.setImageResource(R.drawable.contacto_removebg);
             }
-            /*else if (position == 2){
-                icon.setImageResource(R.drawable.voz_removebg);
-            }*/
-            else{
+            else if (position == 2){
                 icon.setImageResource(R.drawable.ic_action_check);
+            }
+            else{
+                icon.setImageResource(R.drawable.ic_action_privacity);
             }
 
             textView1.setOnClickListener(new View.OnClickListener(){
@@ -587,12 +589,11 @@ public class SosActivity extends AppCompatActivity {
 
                         }
                     }
-                    /*
-                    if (position == 2) {
-                        DialogoSensor dialogoSensor = new DialogoSensor();
-                        dialogoSensor.show(getSupportFragmentManager(), "DialogoSensor");
+                    if (position == 3) {
+                        DialogoPoliticas dialogoPoliticas = new DialogoPoliticas();
+                        dialogoPoliticas.show(getSupportFragmentManager(), "DialogoPoliticas");
 
-                    }*/
+                    }
                 }
             });
 
@@ -625,14 +626,12 @@ public class SosActivity extends AppCompatActivity {
                             dialogoVoz.show(getSupportFragmentManager(), "DialogoVoz");
                         }
                     }
-                    /*
+
                     if (position == 3) {
-                        DialogoSensor dialogoSensor = new DialogoSensor();
-                        dialogoSensor.show(getSupportFragmentManager(), "DialogoSensor");
+                        DialogoPoliticas dialogoPoliticas = new DialogoPoliticas();
+                        dialogoPoliticas.show(getSupportFragmentManager(), "DialogoPoliticas");
 
                     }
-                     */
-
                 }
             });
 

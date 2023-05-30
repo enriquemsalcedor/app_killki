@@ -92,7 +92,7 @@ public class ContactoActivity extends AppCompatActivity {
         lv_contactos = (ListView) findViewById(R.id.lv_contactos);
 
         AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(getApplicationContext(), "killki", null, 1);
-        SQLiteDatabase bd = con.getWritableDatabase();
+        final SQLiteDatabase bd = con.getWritableDatabase();
         Cursor consulta = bd.rawQuery(
                 "select num_veces from configuracion", null);
         if (consulta.moveToFirst()) {
@@ -106,7 +106,7 @@ public class ContactoActivity extends AppCompatActivity {
         }
 
         SharedPreferences preferencias=getSharedPreferences("sensor",Context.MODE_PRIVATE);
-        SharedPreferences.Editor movalerta = preferencias.edit();
+        final SharedPreferences.Editor movalerta = preferencias.edit();
 
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -484,7 +484,7 @@ public class ContactoActivity extends AppCompatActivity {
         }
     }
 
-    public void eliminar(String numero, View view){
+    public void eliminar(final String numero, final View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("¿Desea eliminar el contacto?")
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
@@ -527,7 +527,7 @@ public class ContactoActivity extends AppCompatActivity {
             appCompatActivity = context;
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, final View convertView, ViewGroup parent) {
             Context context;
             LayoutInflater inflater = appCompatActivity.getLayoutInflater();
             View item = inflater.inflate(R.layout.layout_contacto, null);

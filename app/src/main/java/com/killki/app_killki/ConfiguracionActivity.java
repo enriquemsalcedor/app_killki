@@ -76,6 +76,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
 
     int flagVoz = 0;
     private static final int RECOGNIZE_SPEECH_ACTIVITY = 1;
+    SQLiteDatabase bd;
 
 
     @Override
@@ -90,7 +91,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
         acciones.add(new Accion("CONFIGURACIÓN DE VOZ"));
 
         AdminSQLiteOpenHelper con = new AdminSQLiteOpenHelper(getApplicationContext(), "killki", null, 1);
-        SQLiteDatabase bd = con.getWritableDatabase();
+        final SQLiteDatabase bd = con.getWritableDatabase();
         Cursor consulta = bd.rawQuery(
                 "select num_veces from configuracion", null);
         if (consulta.moveToFirst()) {
@@ -369,7 +370,7 @@ public class ConfiguracionActivity extends AppCompatActivity {
             appCompatActivity = context;
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = appCompatActivity.getLayoutInflater();
             View item = inflater.inflate(R.layout.layout_conf, null);
 

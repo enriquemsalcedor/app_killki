@@ -29,13 +29,12 @@
             android:layout_marginLeft="3dp"
             android:layout_marginTop="8dp"
             android:layout_marginRight="20dp"
+            android:autoSizeMaxTextSize="16sp"
+            android:autoSizeMinTextSize="15sp"
             android:gravity="center_vertical"
             android:text="SELECCIONE"
             android:textColor="@color/black"
-            android:autoSizeMinTextSize="15sp"
-            android:autoSizeMaxTextSize="16sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <ImageButton
             android:layout_width="106dp"
